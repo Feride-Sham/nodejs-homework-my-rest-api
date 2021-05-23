@@ -17,7 +17,7 @@ router.get("/:contactId", async (req, res, next) => {
     if (result) {
       return res.json({ status: "success", code: 200, data: { result } });
     }
-    return res.json({ status: "errore", code: 404, message: "Not found" });
+    return res.json({ status: "error", code: 404, message: "Not found" });
   } catch (e) {
     next(e);
   }
@@ -45,7 +45,7 @@ router.delete("/:contactId", async (req, res, next) => {
         data: { result },
       });
     }
-    return res.json({ status: "errore", code: 404, message: "Not found" });
+    return res.json({ status: "error", code: 404, message: "Not found" });
   } catch (e) {
     next(e);
   }

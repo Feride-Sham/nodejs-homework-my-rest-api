@@ -20,11 +20,16 @@ const getContactById = async (contactId) => {
 
 const removeContact = async (contactId) => {
   const contacts = await readContacts();
-  const newContactList = contacts.filter(
-    (el) => String(contactId) !== String(el.id)
+  const deletedContact = contacts.find(
+    (el) => String(contactId) === String(el.id)
   );
-  await fs.writeFile(contactsPath, JSON.stringify(newContactList));
-  return newContactList;
+  if (deletedContact) {
+    const index = contacts.indexOf(deletedContact);
+    contacts.splice(index, 1);
+
+    await fs.writeFile(contactsPath, JSON.stringify(contacts));
+    return contacts;
+  }
 };
 
 const addContact = async (body) => {
