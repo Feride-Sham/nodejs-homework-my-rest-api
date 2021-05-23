@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Contacts = require("../../model");
+const {
+  validationAddContact,
+  validationUpdateContact,
+} = require("./validation");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -23,7 +27,7 @@ router.get("/:contactId", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", validationAddContact, async (req, res, next) => {
   try {
     const contact = await Contacts.addContact(req.body);
     return res
@@ -51,8 +55,20 @@ router.delete("/:contactId", async (req, res, next) => {
   }
 });
 
-router.put("/:contactId", async (req, res, next) => {
-  res.json({ message: "template message" });
+router.put("/:contactId", validationUpdateContact, async (req, res, next) => {
+  try {
+    const result = await Contacts.updateContact(req.params.contactId, req.body);
+    if (result) {
+      return res.json({
+        status: "success",
+        code: 200,
+        data: { result },
+      });
+    }
+    return res.json({ status: "error", code: 404, message: "Not found" });
+  } catch (e) {
+    next(e);
+  }
 });
 
 module.exports = router;
