@@ -11,5 +11,8 @@ const db = MongoClient.connect(uriDB, {
 process.on("SIGINT", async () => {
   const client = await db;
   client.close();
-  console.log("Connection terminated");
+  console.log("Database connection successful");
+  process.exit(1);
 });
+
+module.exports = db;
