@@ -27,6 +27,10 @@ const getContactById = async (contactId) => {
 const removeContact = async (contactId) => {
   const collection = await getCollection(db, "contacts");
   const objectID = new ObjectID(contactId);
+  const { value: result } = await collection.findOneAndDelete({
+    _id: objectID,
+  });
+  return result;
   // const contacts = await readContacts();
   // const deletedContact = contacts.find(
   //   (el) => String(contactId) === String(el.id)
@@ -60,6 +64,12 @@ const addContact = async (body) => {
 const updateContact = async (contactId, body) => {
   const collection = await getCollection(db, "contacts");
   const objectID = new ObjectID(contactId);
+  const { value: result } = await collection.findOneAndUpdate(
+    { _id: objectID },
+    { $set: body },
+    { returnOriginal: false }
+  );
+  return result;
   // const contacts = await readContacts();
   // const [result] = contacts.filter((el) => String(contactId) === String(el.id));
   // if (result) {
