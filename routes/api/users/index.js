@@ -9,10 +9,10 @@ const ctrl = require("../../../controllers/users");
 //   validateMongoID,
 // } = require("./validation");
 
-router.post("/users/signup", ctrl.signup);
-router.post("/users/login", ctrl.login);
-router.post("/users/logout", ctrl.logout);
+router.post("/signup", ctrl.signup);
+router.post("/login", ctrl.login);
+router.post("/logout", ctrl.logout);
 
-// router.get("/users/current", ctrl.current);
+// router.get("/current", ctrl.current);
 
 module.exports = router;
