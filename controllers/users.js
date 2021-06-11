@@ -62,4 +62,28 @@ const logout = async (req, res, next) => {
   }
 };
 
-module.exports = { signup, login, logout };
+const current = async (req, res, next) => {
+  try {
+    console.log(req);
+    if (!req.user) {
+      return res.status(HttpCode.UNAUTHORIZED).json({
+        status: "error",
+        code: HttpCode.UNAUTHORIZED,
+        message: "Not authorized",
+      });
+    }
+
+    const { email, subscription } = req.user;
+
+    return res.status(HttpCode.OK).json({
+      status: "success",
+      code: HttpCode.OK,
+      user: { email, subscription },
+    });
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+};
+
+module.exports = { signup, login, logout, current };
