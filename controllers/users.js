@@ -15,12 +15,14 @@ const signup = async (req, res, next) => {
         message: "Email in use",
       });
     }
-    const { id, email, subscription } = await Users.cteateUser(req.body);
+    const { id, email, subscription, avatar } = await Users.cteateUser(
+      req.body
+    );
 
     return res.status(HttpCode.CREATED).json({
       status: "success",
       code: HttpCode.CREATED,
-      data: { id, email, subscription },
+      data: { id, email, subscription, avatar },
     });
   } catch (e) {
     console.log(e);
