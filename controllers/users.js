@@ -88,4 +88,8 @@ const current = async (req, res, next) => {
   }
 };
 
-module.exports = { signup, login, logout, current };
+const avatars = async (req, res, next) => {
+  res.json({ message: "done" });
+};
+
+module.exports = { signup, login, logout, current, avatars };
