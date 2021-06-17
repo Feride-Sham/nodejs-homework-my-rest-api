@@ -2,9 +2,10 @@ const Users = require("../repositories/users");
 const { HttpCode } = require("../helpers/constants");
 const jwt = require("jsonwebtoken");
 const fs = require("fs/promises");
-const path = require("path");
+// const path = require("path");
 require("dotenv").config();
-const UploadAvatarService = require("../services/local-upload");
+// const UploadAvatarService = require("../services/local-upload");
+const UploadAvatarService = require("../services/cloud-upload");
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -91,19 +92,41 @@ const current = async (req, res, next) => {
   }
 };
 
+// *****FIRST OPTION: local upload*********
+//
+// const avatars = async (req, res, next) => {
+//   try {
+//     const id = req.user.id;
+//     const uploads = new UploadAvatarService(process.env.AVATAR_OF_USERS);
+//     const avatarURL = await uploads.saveAvatar({ idUser: id, file: req.file });
+//
+//     try {
+//       await fs.unlink(path.join(process.env.AVATAR_OF_USERS, req.user.avatar));
+//     } catch (er) {
+//       console.log(er);
+//     }
+
+//     await Users.updateAvatar(id, avatarURL);
+//     res.json({ status: "success", code: HttpCode.OK, data: { avatarURL } });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+// *****SECOND OPTION: cloud upload*********
+//
 const avatars = async (req, res, next) => {
   try {
     const id = req.user.id;
-    const uploads = new UploadAvatarService(process.env.AVATAR_OF_USERS);
-    const avatarURL = await uploads.saveAvatar({ idUser: id, file: req.file });
-    // TODO: need delete old avatar
-    try {
-      await fs.unlink(path.join(process.env.AVATAR_OF_USERS, req.user.avatar));
-    } catch (er) {
-      console.log(er);
-    }
+    const uploads = new UploadAvatarService();
+    const { idCloudAvatar, avatarURL } = await uploads.saveAvatar(
+      req.file.path,
+      req.user.idCloudAvatar
+    );
+    // TODO: need delete file on folder uploads
+    await fs.unlink(req.file.path);
 
-    await Users.updateAvatar(id, avatarURL);
+    await Users.updateAvatar(id, avatarURL, idCloudAvatar);
     res.json({ status: "success", code: HttpCode.OK, data: { avatarURL } });
   } catch (error) {
     next(error);
