@@ -23,7 +23,7 @@ class UploadAvatarService {
 
   async saveAvatar({ idUser, file }) {
     await this.transformAvatar(file.path);
-    const folderUserAvatar = path.join(this.folderAvatars);
+    const folderUserAvatar = path.join(this.folderAvatars, idUser);
     await createFolderIsNotExist(folderUserAvatar);
     await fs.rename(file.path, path.join(folderUserAvatar, file.filename));
     return path.normalize(path.join(idUser, file.filename));
