@@ -31,7 +31,11 @@ app.use((err, req, res, next) => {
   const status = err.status || HttpCode.INTERNAL_SERVER_ERROR;
   res
     .status(status)
-    .json({ status: "fail", code: status, message: err.message });
+    .json({
+      status: status === HttpCode.INTERNAL_SERVER_ERROR3 ? "fail" : "error",
+      code: status,
+      message: err.message,
+    });
 });
 
 process.on("unhandledRejection", (reason, promise) => {
