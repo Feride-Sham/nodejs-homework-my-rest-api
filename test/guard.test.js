@@ -16,6 +16,37 @@ describe("Unit test controller contacts", () => {
       cb(null, user);
     });
     guard(req, res, next);
+    expect(req.get).toHaveBeenCalled();
     expect(next).toHaveBeenCalled();
+  });
+
+  it("user not exist", async () => {
+    passport.authenticate = jest.fn((strategy, options, cb) => () => {
+      cb(null, false);
+    });
+    guard(req, res, next);
+    expect(req.get).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalled();
+    expect(res.json).toHaveBeenCalled();
+    expect(res.json).toHaveReturnedWith({
+      status: "error",
+      code: HttpCode.UNAUTHORIZED,
+      message: "Not authorized",
+    });
+  });
+
+  it("user wrong token", async () => {
+    passport.authenticate = jest.fn((strategy, options, cb) => () => {
+      cb(null, { token: "2346898" });
+    });
+    guard(req, res, next);
+    expect(req.get).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalled();
+    expect(res.json).toHaveBeenCalled();
+    expect(res.json).toHaveReturnedWith({
+      status: "error",
+      code: HttpCode.UNAUTHORIZED,
+      message: "Not authorized",
+    });
   });
 });
