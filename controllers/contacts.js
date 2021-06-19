@@ -22,10 +22,11 @@ const getContactById = async (req, res, next) => {
     const userId = req.user.id;
     const result = await Contacts.getContactById(userId, req.params.contactId);
     if (result) {
-      console.log(result);
       return res.json({ status: "success", code: 200, data: { result } });
     }
-    return res.json({ status: "error", code: 404, message: "Not found" });
+    return res
+      .status(404)
+      .json({ status: "error", code: 404, message: "Not found" });
   } catch (e) {
     next(e);
   }
