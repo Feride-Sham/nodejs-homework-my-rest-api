@@ -2,14 +2,14 @@ const Joi = require("joi");
 
 const schemaAddUser = Joi.object({
   email: Joi.string().email().optional(),
-  password: Joi.string().min(4).required(),
+  password: Joi.string().required(),
   subscription: Joi.string().optional(),
 });
 
-const schemaUserLogin = Joi.object({
-  email: Joi.string().email().optional(),
-  password: Joi.string().min(4).required(),
-});
+// const schemaUserLogin = Joi.object({
+//   email: Joi.string().email().optional(),
+//   password: Joi.string().required(),
+// });
 
 const validate = async (schema, request, next) => {
   try {
