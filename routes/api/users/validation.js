@@ -6,11 +6,6 @@ const schemaAddUser = Joi.object({
   subscription: Joi.string().optional(),
 });
 
-// const schemaUserLogin = Joi.object({
-//   email: Joi.string().email().optional(),
-//   password: Joi.string().required(),
-// });
-
 const validate = async (schema, request, next) => {
   try {
     await schema.validateAsync(request);
