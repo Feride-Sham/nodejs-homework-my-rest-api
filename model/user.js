@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const gr = require("gravatar");
+const { nanoid } = require("nanoid");
 const { Subscription } = require("../helpers/constants");
 const bcrypt = require("bcryptjs");
 const SALT_WORK_FACTOR = 6;
@@ -38,6 +39,8 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    isVerified: { type: Boolean, default: false },
+    verifyToken: { type: String, required: true, default: nanoid() },
   },
   {
     versionKey: false,

@@ -18,9 +18,15 @@ const signup = async (req, res, next) => {
         message: "Email in use",
       });
     }
-    const { id, email, subscription, avatar } = await Users.cteateUser(
-      req.body
-    );
+    const {
+      id,
+      email,
+      subscription,
+      avatar,
+      verifyToken,
+    } = await Users.cteateUser(req.body);
+
+    // TODO: send email verify
 
     return res.status(HttpCode.CREATED).json({
       status: "success",
@@ -37,7 +43,7 @@ const login = async (req, res, next) => {
   try {
     const result = await Users.findUserByEmail(req.body.email);
     const isValidPassword = await result?.isValidPassword(req.body.password);
-    if (!result || !isValidPassword) {
+    if (!result || !isValidPassword || !result.isVerified) {
       console.log(isValidPassword);
       return res.status(HttpCode.UNAUTHORIZED).json({
         status: "error",
@@ -90,7 +96,6 @@ const current = async (req, res, next) => {
     next(e);
   }
 };
-
 
 // *****SECOND OPTION: cloud upload*********
 
