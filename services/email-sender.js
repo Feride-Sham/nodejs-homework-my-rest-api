@@ -5,7 +5,10 @@ require("dotenv").config();
 class CreateSenderSendGrid {
   async send(msg) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    return await sgMail.send({ ...msg, from: "ferika.sham@gmail.com" });
+    return await sgMail.send({
+      ...msg,
+      from: "Bla-Bla <euguen456@gmail.com>",
+    });
   }
 }
 
@@ -21,6 +24,7 @@ class CreateSenderNodemailer {
       },
     };
     const transporter = nodemailer.createTransport(config);
+
     return await transporter.sendMail({
       ...msg,
       from: process.env.NODEMAILER_EMAIL,

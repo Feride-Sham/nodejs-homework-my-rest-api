@@ -7,6 +7,7 @@ const SALT_WORK_FACTOR = 6;
 
 const userSchema = new Schema(
   {
+    name: { type: String, default: "Guest" },
     email: {
       type: String,
       required: [true, "Email is required"],

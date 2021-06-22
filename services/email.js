@@ -19,7 +19,7 @@ class EmailService {
 
   #createTemplateVerificationEmail(verifyToken, name) {
     const mailGenerator = new Mailgen({
-      theme: "salted ",
+      theme: "cerberus",
       product: {
         name: "Bla-bla",
         link: this.link, // Optional product logo
@@ -38,8 +38,6 @@ class EmailService {
             link: `${this.link}/api/users/verify/${verifyToken}`,
           },
         },
-        outro:
-          "Need help, or have questions? Just reply to this email, we'd love to help.",
       },
     };
     return mailGenerator.generate(email);
