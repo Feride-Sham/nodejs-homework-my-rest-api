@@ -4,7 +4,7 @@ const Users = require("../repositories/users");
 const { HttpCode } = require("../helpers/constants");
 const EmailService = require("../services/email");
 const {
-  CreateSenderNodemailer,
+  // CreateSenderNodemailer,
   CreateSenderSendGrid,
 } = require("../services/email-sender");
 
